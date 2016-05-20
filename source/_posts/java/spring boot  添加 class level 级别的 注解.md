@@ -1,0 +1,1 @@
+﻿spring boot  添加 class level 级别的 注解
