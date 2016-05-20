@@ -1,4 +1,7 @@
-﻿docker-machine restart丢失数据的问题
+﻿---
+title: docker-machine重启丢失数据的问题
+---
+docker-machine restart丢失数据的问题
 ===========
 
 场景

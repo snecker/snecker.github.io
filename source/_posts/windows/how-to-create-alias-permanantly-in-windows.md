@@ -1,4 +1,7 @@
-﻿windows 下创建 类似 linux alias命令
+﻿---
+title:how-to-create-alias-permanantly-in-windows.md
+---
+windows 下创建 类似 linux alias命令
 ==========
 
 1. 下载git

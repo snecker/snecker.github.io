@@ -1,4 +1,8 @@
-﻿打开监控
+﻿---
+title: mysql 常用命令
+---
+
+打开监控
 ======
 ```sql
 > SET profiling = 1;

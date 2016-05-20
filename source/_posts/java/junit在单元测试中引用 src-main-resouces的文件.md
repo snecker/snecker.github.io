@@ -1,4 +1,7 @@
-﻿在maven项目中单元测试的时候。
+﻿---
+title: junit在单元测试中引用 src-main-resouces的文件
+---
+在maven项目中单元测试的时候。
 有时我希望引入src/main/resources下面的配置文件或其他文件。
 
 

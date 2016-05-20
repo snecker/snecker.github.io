@@ -1,4 +1,8 @@
-﻿```xml
+﻿---
+title: maven 安装source到本地
+---
+
+```xml
 <plugin>
    <groupId>org.apache.maven.plugins</groupId>
    <artifactId>maven-source-plugin</artifactId>

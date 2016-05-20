@@ -1,4 +1,8 @@
-﻿docker zookeeper 集群搭建
+﻿---
+title: docker zookeeper集群搭建
+---
+
+docker zookeeper 集群搭建
 =============
 
 

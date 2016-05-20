@@ -1,4 +1,7 @@
-﻿springboot 中用到spark-java初始化2次embeddedjettycontainer的问题
+﻿---
+title: springboot 中用到spark-java初始化2次embeddedjettycontainer的问题.md
+---
+springboot 中用到spark-java初始化2次embeddedjettycontainer的问题
 =======
 
 sparkjava内置了jetty,集成springboot的时候

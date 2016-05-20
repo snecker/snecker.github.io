@@ -1,4 +1,7 @@
-﻿docker 常见问题
+﻿---
+title: docker常见问题.md
+---
+docker 常见问题
 ==============
 
 
@@ -11,7 +14,7 @@
 
 本地已经按照mysql image
 需要按照如下命令
-```shell
+``` bash
 $ docker-machine ssh default
 $ docker run --restart=always -dit -v ~/mysql:/var/lib/mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=true --name mysql-server -p 3306:3306  mysql
 ```其中: ***-p*** 就是指定端口映射,在宿主机中就可以通过192.168.99.100:3306端口进行访问
@@ -21,7 +24,7 @@ $ docker run --restart=always -dit -v ~/mysql:/var/lib/mysql -e MYSQL_ALLOW_EMPT
 
 * docker-machine 默认root密码
 
-```shell
+``` bash
 $ docker-machine ssh default
 $ sudo -i
 ```就可以了

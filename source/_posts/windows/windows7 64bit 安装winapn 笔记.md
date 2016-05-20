@@ -1,3 +1,7 @@
+---
+title:windows7 64bit 安装winapn 笔记
+---
+
 因为要连接客户的机器，需要用到 winapn这07年出来的东东
 
 下载

@@ -1,4 +1,7 @@
-﻿在src/main/resources下有
+﻿---
+title: spring boot  src test java单元测试引用src main resource下的配置文件
+---
+在src/main/resources下有
 ```
 config/application-local.properties
 config/application-test.properties

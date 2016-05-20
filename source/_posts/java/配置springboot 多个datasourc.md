@@ -1,11 +1,15 @@
-﻿第一步
-----------
+﻿
+---
+title: 配置springboot 多个datasourc.md
+---
+
+## 第一步
 
 @Configuration标签后面添加
 ```java
 @EnableConfigurationProperties
 ```
-然后
+## 然后
 ---------
 ```java
 @Bean
@@ -21,7 +25,7 @@ public DataSource primaryDataSource() {
 }
 ```
 
-配置文件
+## 配置文件
 ----------
 
 在对应配置文件里面

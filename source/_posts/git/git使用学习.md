@@ -1,4 +1,8 @@
-﻿创建Repository
+﻿
+---
+title: git使用学习.md
+---
+创建Repository
 -----------
 
 首先是要在github上手动创建一个Repository的。创建Repostitory有两种方式

@@ -1,8 +1,9 @@
-﻿静态配置容器的ip地址
-========
+﻿---
+title: 静态配置容器的ip地址
+---
 
 
-```shell
+``` bash
 docker network create --subnet 172.19.0.0/16 --gateway 172.19.0.1 --ip-range 172.19.0.0/17 bar
 ```
 

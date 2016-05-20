@@ -1,3 +1,6 @@
+---
+title:windows安装 rsync一些问题
+---
 提示找不到目录
 ==============
 windows下安装rsync时候
