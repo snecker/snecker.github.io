@@ -1,0 +1,16 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Spring 运行时获取参数名称 · Paul的博客</title><meta name="description" content="Spring 运行时获取参数名称 - Paul"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Spring 运行时获取参数名称</h1><div class="post-info">May 20, 2016</div><div class="post-content"><h1 id="Spring-运行时获取参数名称"><a href="#Spring-运行时获取参数名称" class="headerlink" title="Spring 运行时获取参数名称"></a>Spring 运行时获取参数名称</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ParameterNameDiscoverer parameterNameDiscoverer = <span class="keyword">new</span> LocalVariableTableParameterNameDiscoverer();</span><br><span class="line">String[] strings = parameterNameDiscoverer.getParameterNames(method);</span><br></pre></td></tr></table></figure>
+<h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><ol>
+<li>可以读取到class的方法,Abstract class的非抽象方法</li>
+<li>interface方法和Abstract class 抽象方法无法获取</li>
+</ol>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/05/20/java/springboot 手动注入单例到容器中/" class="prev">上一篇</a><a href="/2016/05/20/java/日期格式化线程安全问题/" class="next">下一篇</a></div><div data-thread-key="2016/05/20/java/Spring运行时获取参数名称/" data-title="Spring 运行时获取参数名称" data-url="http://snecker.github.io/2016/05/20/java/Spring运行时获取参数名称/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"snecker"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2016 <a href="http://snecker.github.io">Paul</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-78052515-1",'auto');ga('send','pageview');</script></body></html>

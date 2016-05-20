@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> windows下定义脚本快速发布gitbook并push到 github.io · Paul的博客</title><meta name="description" content="windows下定义脚本快速发布gitbook并push到 github.io - Paul"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">windows下定义脚本快速发布gitbook并push到 github.io</h1><div class="post-info">May 20, 2016</div><div class="post-content"><h2 id="两个目录"><a href="#两个目录" class="headerlink" title="两个目录"></a>两个目录</h2><ul>
+<li>gitbook 目录: md文件的目录.对应 snecker.github.io项目的 develop分支</li>
+<li>snecker.github.io 目录:对应 snecker.github.io项目的 master分支.存放静态html文件</li>
+</ul>
+<p>平常记录一篇笔记之后.发布到 snecker.github.io.步骤是:</p>
+<ol>
+<li>cd gitbook目录</li>
+<li>gitbook build . ../snecker.github.io</li>
+<li>cd snecker.github.io</li>
+<li>git pull &amp;&amp; git add . &amp;&amp; git ci -am “comment” &amp;&amp; git push</li>
+</ol>
+<p>能不能把这些操作放到一条命令就能执行呢?</p>
+<ol>
+<li><p>cd gitbook</p>
+</li>
+<li><p>创建脚本 gen_gitbook.bat 用于build 静态资源,内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">cd</span> /d <span class="string">"E:\github\gitbook"</span></span><br><span class="line">gitbook build . ../snecker.github.io</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建脚本 commit_and_push.bat 用于git 提交 并push</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"准备提交md..."</span></span><br><span class="line">g pull</span><br><span class="line">g add .</span><br><span class="line">g ci -am <span class="string">"update"</span></span><br><span class="line">g push</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"准备push static html..."</span></span><br><span class="line"><span class="built_in">cd</span> /d <span class="string">"E:\github\snecker.github.io"</span></span><br><span class="line">g pull</span><br><span class="line">g add .</span><br><span class="line">g ci -am <span class="string">"update"</span></span><br><span class="line">g push</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建脚本pblog.bat 用于合并两个脚本命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">gen_gitbook.bat &amp;&amp; commit_and_push.bat</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定义别名 (可以参考之前文章 <a href="/windows/how-to-create-alias-permanantly-in-windows.md">如何定义别名</a>)<br>末尾添加一行</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doskey pblog=E:\github\gitbook\pblog.bat</span><br></pre></td></tr></table></figure>
+<ol>
+<li>打开cmd.直接输入 pblog,build,push一气呵成.</li>
+</ol>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>git ci -am “comment”在脚本里面是写死的.可以通过参数传递进去.</p>
+<p>(提示:%0表示批处理命令本身，其它参数字符串用%1到%9顺序表示)</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/05/20/windows/how-to-create-alias-permanantly-in-windows/" class="prev">上一篇</a><a href="/2016/05/20/windows/windows7 64bit 安装winapn 笔记/" class="next">下一篇</a></div><div data-thread-key="2016/05/20/windows/windows下定义脚本快速发布gitbook并push到 github.io/" data-title="windows下定义脚本快速发布gitbook并push到 github.io" data-url="http://snecker.github.io/2016/05/20/windows/windows下定义脚本快速发布gitbook并push到 github.io/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"snecker"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2016 <a href="http://snecker.github.io">Paul</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-78052515-1",'auto');ga('send','pageview');</script></body></html>

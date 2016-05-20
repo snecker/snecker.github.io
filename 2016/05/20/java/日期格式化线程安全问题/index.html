@@ -1,0 +1,21 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 日期格式化线程安全问题 · Paul的博客</title><meta name="description" content="日期格式化线程安全问题 - Paul"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">日期格式化线程安全问题</h1><div class="post-info">May 20, 2016</div><div class="post-content"><p>一直是用<br><code>java
+private static SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</code>这种形式来格式化字符串日期,没想到原来是非线程安全的</p>
+<p>在多线程环境下会共享 SimpleDateFormat 里面的一个Calendar.而 calendar引用会在格式化parse的时候进行clear()操作<br>这样就有可能一个线程在parse的时候,另一个线程的已经读错了,导致意外结果.</p>
+<h2 id="有两种解决方法"><a href="#有两种解决方法" class="headerlink" title="有两种解决方法:"></a>有两种解决方法:</h2><ol>
+<li><p>同步代码块</p>
+</li>
+<li><p>线程中单独实例化</p>
+</li>
+</ol>
+<h2 id="另"><a href="#另" class="headerlink" title="另"></a>另</h2><p>Java8 提供了 DateTimeFormatter,本身就是thread -safe了,所以,放心用吧,java8的日期组件还是很方便的.</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/05/20/java/Spring运行时获取参数名称/" class="prev">上一篇</a><a href="/2016/05/20/java/运行时获取泛型类型/" class="next">下一篇</a></div><div data-thread-key="2016/05/20/java/日期格式化线程安全问题/" data-title="日期格式化线程安全问题" data-url="http://snecker.github.io/2016/05/20/java/日期格式化线程安全问题/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"snecker"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2016 <a href="http://snecker.github.io">Paul</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-78052515-1",'auto');ga('send','pageview');</script></body></html>
