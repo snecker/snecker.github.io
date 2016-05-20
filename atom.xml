@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Paul的博客</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://snecker.github.io/"/>
+  <updated>2016-05-20T02:46:40.625Z</updated>
+  <id>http://snecker.github.io/</id>
+  
+  <author>
+    <name>Paul</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>windows下 redis-cli 如果删除keys * 匹配的key</title>
+    <link href="http://snecker.github.io/2016/05/20/redis/windows%E4%B8%8B%20%E5%88%A0%E9%99%A4%20%E5%8C%B9%E9%85%8D%20keys%20pattern%20%E7%9A%84key/"/>
+    <id>http://snecker.github.io/2016/05/20/redis/windows下 删除 匹配 keys pattern 的key/</id>
+    <published>2016-05-20T02:36:16.068Z</published>
+    <updated>2016-05-20T02:46:40.625Z</updated>
+    
+    <content type="html">&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;redis-cli -h 192.168.99.101 &lt;span class=&quot;_&quot;&gt;-a&lt;/span&gt; xx keys sync.plugin.*|sed &lt;span class=&quot;string&quot;&gt;&#39;s/\r$//&#39;&lt;/span&gt; |xargs redis-cli -h 192.168.99.101 &lt;span class=&quot;_&quot;&gt;-a&lt;/span&gt; xx DEL&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;注意.windows下 查出来的结果包含了 “\r”,需要去掉&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span clas
+    
+    </summary>
+    
+    
+      <category term="key" scheme="http://snecker.github.io/tags/key/"/>
+    
+      <category term="windows" scheme="http://snecker.github.io/tags/windows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis 持久化 RDB &amp; AOF</title>
+    <link href="http://snecker.github.io/2016/05/20/redis/redis%20%E6%8C%81%E4%B9%85%E5%8C%96%20RDB%20&%20AOF/"/>
+    <id>http://snecker.github.io/2016/05/20/redis/redis 持久化 RDB & AOF/</id>
+    <published>2016-05-20T02:36:16.046Z</published>
+    <updated>2016-05-20T02:48:00.799Z</updated>
+    
+    <content type="html">&lt;p&gt;翻译：&lt;br&gt;&lt;a href=&quot;http://blog.csdn.net/zyz511919766/article/details/42423051&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Redis数据持久化&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;原文：&lt;br&gt;&lt;a href=&quot;http://redis.io/topics/persistence&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;redis persistence&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;翻译：&lt;br&gt;&lt;a href=&quot;http://blog.csdn.net/zyz511919766/article/details/42423051&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Redis数据持久化&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;原文：&lt;br&gt;&lt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redis事务注意事项</title>
+    <link href="http://snecker.github.io/2016/05/20/redis/redis%E4%BA%8B%E5%8A%A1%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
+    <id>http://snecker.github.io/2016/05/20/redis/redis事务注意事项/</id>
+    <published>2016-05-20T02:36:16.044Z</published>
+    <updated>2016-05-20T02:48:00.737Z</updated>
+    
+    <content type="html">&lt;p&gt;&lt;a href=&quot;http://redisbook.readthedocs.org/en/latest/feature/transaction.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;redis 事务&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;需要注意的是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;事务中的命令是按顺序执行的，在命令中间不会夹杂执行其他客户端发出的命令。执行完事务的命令才会执行其他客户端的命令。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;redis 的事务不可嵌套&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;DISCARD 命令会清空事务队列，返回OK&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;WATCH 只能在事务multi命令之前执行。如果事务队列的命令在执行过程中发现 watch 的值发生变化，则整个事务队列的命令不会执行，直接返回失败&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;http://redisbook.readthedocs.org/en/latest/feature/transaction.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;redis 事务&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;需要注意的是：&lt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>nginx websocket 连接 每隔一断时间自己断掉.md</title>
+    <link href="http://snecker.github.io/2016/05/20/nginx/nginx%20websocket%20%E8%BF%9E%E6%8E%A5%20%E6%AF%8F%E9%9A%94%E4%B8%80%E6%96%AD%E6%97%B6%E9%97%B4%E8%87%AA%E5%B7%B1%E6%96%AD%E6%8E%89/"/>
+    <id>http://snecker.github.io/2016/05/20/nginx/nginx websocket 连接 每隔一断时间自己断掉/</id>
+    <published>2016-05-20T02:36:16.041Z</published>
+    <updated>2016-05-20T02:48:17.157Z</updated>
+    
+    <content type="html">&lt;p&gt;直接通过 $ip:$port这种形式就没问题，而通过nginx作反向代理之后就会每隔一段时间自己断掉。需要配置&lt;br&gt;&lt;figure class=&quot;highlight cos&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;server &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        listen &lt;span class=&quot;number&quot;&gt;80&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        server_name my.com&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        location ~* ^/api/v1/ws&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            proxy_pass http:&lt;span class=&quot;comment&quot;&gt;//127.0.0.1:8810;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            proxy_http_version &lt;span class=&quot;number&quot;&gt;1.1&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            proxy_set_header Upgrade &lt;span class=&quot;built_in&quot;&gt;$http&lt;/span&gt;_upgrade&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            proxy_set_header Connection &lt;span class=&quot;string&quot;&gt;&quot;upgrade&quot;&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            proxy_connect_timeout &lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            proxy_send_timeout &lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            proxy_read_timeout &lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;直接通过 $ip:$port这种形式就没问题，而通过nginx作反向代理之后就会每隔一段时间自己断掉。需要配置&lt;br&gt;&lt;figure class=&quot;highlight cos&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>proxy_pass带下划线和不带下划线</title>
+    <link href="http://snecker.github.io/2016/05/20/nginx/proxy_pass%E5%B8%A6%E4%B8%8B%E5%88%92%E7%BA%BF%E5%92%8C%E4%B8%8D%E5%B8%A6%E4%B8%8B%E5%88%92%E7%BA%BF/"/>
+    <id>http://snecker.github.io/2016/05/20/nginx/proxy_pass带下划线和不带下划线/</id>
+    <published>2016-05-20T02:36:16.039Z</published>
+    <updated>2016-05-20T02:49:05.459Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;首先看例子&quot;&gt;&lt;a href=&quot;#首先看例子&quot; class=&quot;headerlink&quot; title=&quot;首先看例子&quot;&gt;&lt;/a&gt;首先看例子&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;server&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	listen 80;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	server_name aa.com;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	# 第一种&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	location / &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		proxy_pass http://192.168.1.89;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	# 第二种&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	location / &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		proxy_pass http://192.168.1.89/;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	# 第三种&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	location /api/ &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		proxy_pass http://192.168.1.89/rest;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	# 第四种&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	location /api/ &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		proxy_pass http://192.168.1.89/rest/;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;效果&quot;&gt;&lt;a href=&quot;#效果&quot; class=&quot;headerlink&quot; title=&quot;效果:&quot;&gt;&lt;/a&gt;效果:&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;第一种 , 第二种 效果相同&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;第三 , 第四种 效果不同.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如对 aa.com/api/one/two 路径.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第三种: 转发到 &lt;a href=&quot;http://192.168.1.89/rest/api/one/two&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://192.168.1.89/rest/api/one/two&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;第四种: 转发到 &lt;a href=&quot;http://192.168.1.89/rest/one/two&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://192.168.1.89/rest/one/two&lt;/a&gt;;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;注意&quot;&gt;&lt;a href=&quot;#注意&quot; class=&quot;headerlink&quot; title=&quot;注意:&quot;&gt;&lt;/a&gt;注意:&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;带下划线&lt;/em&gt;&lt;/strong&gt;是把 location 匹配路径在反代后丢掉了 /api/, 相当于:&lt;br&gt;&lt;figure class=&quot;highlight coffeescript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;替换 &lt;span class=&quot;regexp&quot;&gt;/api/&lt;/span&gt; 为 /&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;首先看例子&quot;&gt;&lt;a href=&quot;#首先看例子&quot; class=&quot;headerlink&quot; title=&quot;首先看例子&quot;&gt;&lt;/a&gt;首先看例子&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/mysql/%E5%AF%BC%E5%87%BAbinlog%E6%96%87%E4%BB%B6%E5%88%B0%E6%96%87%E6%9C%AC%E6%96%87%E6%9C%AC/"/>
+    <id>http://snecker.github.io/2016/05/20/mysql/导出binlog文件到文本文本/</id>
+    <published>2016-05-20T02:36:16.030Z</published>
+    <updated>2016-04-18T16:23:33.276Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;导出binlog文件&quot;&gt;&lt;a href=&quot;#导出binlog文件&quot; class=&quot;headerlink&quot; title=&quot;导出binlog文件&quot;&gt;&lt;/a&gt;导出binlog文件&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;string&quot;&gt;&quot;D:\My SoftWare\mysql-5.6.25-winx64\bin\mysqlbinlog.exe&quot;&lt;/span&gt;  --base64-output=decode-rows -v &amp;gt; binlog.txt&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;导出binlog文件&quot;&gt;&lt;a href=&quot;#导出binlog文件&quot; class=&quot;headerlink&quot; title=&quot;导出binlog文件&quot;&gt;&lt;/a&gt;导出binlog文件&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/mysql/mysql%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93%20%E8%BF%98%E5%8E%9F%E6%95%B0%E6%8D%AE/"/>
+    <id>http://snecker.github.io/2016/05/20/mysql/mysql备份数据库 还原数据/</id>
+    <published>2016-05-20T02:36:16.025Z</published>
+    <updated>2016-04-18T16:23:45.929Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;还原&quot;&gt;&lt;a href=&quot;#还原&quot; class=&quot;headerlink&quot; title=&quot;还原&quot;&gt;&lt;/a&gt;还原&lt;/h2&gt;&lt;p&gt;gz&lt;br&gt;&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;gunzip &amp;lt; dd.dump.gz | mysql laimi_test_010 -h 192.168.99.100 -u root -p&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;文本&lt;br&gt;&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mysql laimi_test_010 -h 192.168.99.100 -u root -p &amp;lt; $yourFile&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;还原&quot;&gt;&lt;a href=&quot;#还原&quot; class=&quot;headerlink&quot; title=&quot;还原&quot;&gt;&lt;/a&gt;还原&lt;/h2&gt;&lt;p&gt;gz&lt;br&gt;&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;sp
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/mysql/%20%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E5%92%8C%E9%9D%9E%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E5%8C%BA%E5%88%AB/"/>
+    <id>http://snecker.github.io/2016/05/20/mysql/ 聚集索引和非聚集索引区别/</id>
+    <published>2016-05-20T02:36:16.016Z</published>
+    <updated>2016-04-18T16:28:16.972Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;聚集索引&quot;&gt;&lt;a href=&quot;#聚集索引&quot; class=&quot;headerlink&quot; title=&quot;聚集索引&quot;&gt;&lt;/a&gt;聚集索引&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;一个表只有一个,并且存储记录在物理上连续&lt;/li&gt;
+&lt;li&gt;更快的查询速度&lt;/li&gt;
+&lt;li&gt;Innodb&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;非聚集索引&quot;&gt;&lt;a href=&quot;#非聚集索引&quot; class=&quot;headerlink&quot; title=&quot;非聚集索引&quot;&gt;&lt;/a&gt;非聚集索引&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;一个表可以多个,存储记录在&lt;strong&gt;&lt;em&gt;逻辑&lt;/em&gt;&lt;/strong&gt;上连续,物理上并不连续&lt;/li&gt;
+&lt;li&gt;MyISAM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Innodb 和 MyISAM区别&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;都使用B+Tree索引结构&lt;/li&gt;
+&lt;li&gt;MyISAM data域保存数据记录的地址&lt;/li&gt;
+&lt;li&gt;Innodb 数据文件本身就是索引文件&lt;/li&gt;
+&lt;li&gt;Innodb 本身要按主键聚集，所以InnoDB要求表必须有主键（MyISAM可以没有） 则MySQL系统会自动选择一个可以唯一标识数据记录的列作为主键，&lt;br&gt;如果不存在这种列，则MySQL自动为InnoDB表生成一个隐含字段作为主键，这个字段长度为6个字节，类型为长整形。&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;聚集索引&quot;&gt;&lt;a href=&quot;#聚集索引&quot; class=&quot;headerlink&quot; title=&quot;聚集索引&quot;&gt;&lt;/a&gt;聚集索引&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;一个表只有一个,并且存储记录在物理上连续&lt;/li&gt;
+&lt;li&gt;更快的查询速度&lt;/li&gt;
+&lt;li&gt;Innodb&lt;/l
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/mysql/mysql%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://snecker.github.io/2016/05/20/mysql/mysql 常用命令/</id>
+    <published>2016-05-20T02:36:16.000Z</published>
+    <updated>2016-04-18T15:08:52.327Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;打开监控&quot;&gt;&lt;a href=&quot;#打开监控&quot; class=&quot;headerlink&quot; title=&quot;打开监控&quot;&gt;&lt;/a&gt;打开监控&lt;/h1&gt;&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;gt; SET profiling = 1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;gt; show profiles;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;结果:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&quot;text-align:right&quot;&gt;Query_ID&lt;/th&gt;
+&lt;th style=&quot;text-align:right&quot;&gt;Duration&lt;/th&gt;
+&lt;th&gt;Query&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:right&quot;&gt;1&lt;/td&gt;
+&lt;td style=&quot;text-align:right&quot;&gt;0.00054125&lt;/td&gt;
+&lt;td&gt;explain   select * from t_sales_bill where  date(last_update_date) = ‘2016-03-02’&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:right&quot;&gt;2&lt;/td&gt;
+&lt;td style=&quot;text-align:right&quot;&gt;0.00045175&lt;/td&gt;
+&lt;td&gt;explain   select last_update_date from t_sales_bill where  …&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:right&quot;&gt;3&lt;/td&gt;
+&lt;td style=&quot;text-align:right&quot;&gt;0.00027050&lt;/td&gt;
+&lt;td&gt;SHOW WARNINGS LIMIT 5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&quot;索引选择性&quot;&gt;&lt;a href=&quot;#索引选择性&quot; class=&quot;headerlink&quot; title=&quot;索引选择性&quot;&gt;&lt;/a&gt;索引选择性&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;索引的选择性（Selectivity），是指不重复的索引值（也叫基数，Cardinality）与表记录数（#T）的比值：&lt;br&gt;有关的索引优化策略叫做&lt;strong&gt;&lt;em&gt;前缀索引&lt;/em&gt;&lt;/strong&gt;,就是用列的前缀代替整个列作为索引key，当前缀长度合适时，&lt;br&gt;可以做到既使得前缀索引的选择性接近全列索引，同时因为索引key变短而减少了索引文件的大小和维护开销。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;长度的选择:接近全名的索引选择性并且长度短的优先.&lt;/p&gt;
+&lt;p&gt;举例:&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;count&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;DISTINCT&lt;/span&gt;(title))/&lt;span class=&quot;keyword&quot;&gt;count&lt;/span&gt;(*) &lt;span class=&quot;keyword&quot;&gt;AS&lt;/span&gt; Selectivity &lt;span class=&quot;keyword&quot;&gt;FROM&lt;/span&gt; employees.titles;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;TABLE&lt;/span&gt; employees.employees&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;INDEX&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;`first_name_last_name4`&lt;/span&gt; (first_name, last_name(&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;));&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;缺点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不能用于order by ,group by&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;打开监控&quot;&gt;&lt;a href=&quot;#打开监控&quot; class=&quot;headerlink&quot; title=&quot;打开监控&quot;&gt;&lt;/a&gt;打开监控&lt;/h1&gt;&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;spa
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/mysql/%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/"/>
+    <id>http://snecker.github.io/2016/05/20/mysql/一个字符设置问题/</id>
+    <published>2016-05-20T02:36:15.982Z</published>
+    <updated>2016-04-18T16:23:38.879Z</updated>
+    
+    <content type="html">&lt;p&gt;用工具新建表之后，没有注意字符集，导致sql运行之后报错！&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Caused by: java.sql.BatchUpdateException: Incorrect string value: ‘\xE5\xAF\x8C\xE5\x9F\xBA’ for column ‘agent_title’ at row 1&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;后来把表的字符集改成utf8_general_ci，还没好！&lt;br&gt;然后就把每列都改成 utf8_general_ci，尼玛终于好了&lt;br&gt;就好了！&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;用工具新建表之后，没有注意字符集，导致sql运行之后报错！&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Caused by: java.sql.BatchUpdateException: Incorrect string value: ‘\xE5\xAF\x8C\xE5\x9F
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/maven/maven%20%E5%AE%89%E8%A3%85source%E5%88%B0%E6%9C%AC%E5%9C%B0/"/>
+    <id>http://snecker.github.io/2016/05/20/maven/maven 安装source到本地/</id>
+    <published>2016-05-20T02:36:15.979Z</published>
+    <updated>2016-03-31T09:22:40.197Z</updated>
+    
+    <content type="html">&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;plugin&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;org.apache.maven.plugins&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;maven-source-plugin&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;2.2.1&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;                               &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;plugin&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;添加到buid&amp;gt;plugins里面，然后 install，自动安装到本地&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/maven/maven%20%E8%BF%90%E8%A1%8C%E6%97%B6%E5%80%99%E6%8E%92%E9%99%A4%E6%9F%90%E4%BA%9B%E6%A8%A1%E5%9D%97/"/>
+    <id>http://snecker.github.io/2016/05/20/maven/maven 运行时候排除某些模块/</id>
+    <published>2016-05-20T02:36:15.977Z</published>
+    <updated>2016-03-31T09:16:39.371Z</updated>
+    
+    <content type="html">&lt;p&gt;有时为了提高打包速度，会把不相关的模块排除掉&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mvn clean install -pl \!module,\!module/submodule,\!groupId:artifactId&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;注意：多个模块之间不能有空格&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有时为了提高打包速度，会把不相关的模块排除掉&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;t
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/linux/linux%20xargs%E4%B8%AD%E5%A6%82%E6%9E%9C%E5%8C%85%E5%90%AB%E7%A9%BA%E6%A0%BC%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86/"/>
+    <id>http://snecker.github.io/2016/05/20/linux/linux xargs中如果包含空格怎么处理/</id>
+    <published>2016-05-20T02:36:15.974Z</published>
+    <updated>2016-04-15T09:28:02.498Z</updated>
+    
+    <content type="html">&lt;p&gt;经常用到 xargs,但如果管道中包含空格如何处理?&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ls -l | xargs -i echo &amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;经常用到 xargs,但如果管道中包含空格如何处理?&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/linux/linux%20%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E7%A9%BA,%E4%B8%BA%E7%A9%BA%E8%AE%BE%E9%BB%98%E8%AE%A4%E5%80%BC/"/>
+    <id>http://snecker.github.io/2016/05/20/linux/linux 判断是否空,为空设默认值/</id>
+    <published>2016-05-20T02:36:15.972Z</published>
+    <updated>2016-04-24T04:36:10.017Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;linux-判断空-不为空则设置默认值的简单方式&quot;&gt;&lt;a href=&quot;#linux-判断空-不为空则设置默认值的简单方式&quot; class=&quot;headerlink&quot; title=&quot;linux 判断空,不为空则设置默认值的简单方式&quot;&gt;&lt;/a&gt;linux 判断空,不为空则设置默认值的简单方式&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ FOO=$&amp;#123;VARIABLE:-default&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#或者&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ FOO=$&amp;#123;VARIABLE:=default&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;linux-判断空-不为空则设置默认值的简单方式&quot;&gt;&lt;a href=&quot;#linux-判断空-不为空则设置默认值的简单方式&quot; class=&quot;headerlink&quot; title=&quot;linux 判断空,不为空则设置默认值的简单方式&quot;&gt;&lt;/a&gt;linux 判断空,不为空则
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/linux/ufw%20%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E5%8D%95%E8%AE%BE%E7%BD%AE/"/>
+    <id>http://snecker.github.io/2016/05/20/linux/ufw 防火墙简单设置/</id>
+    <published>2016-05-20T02:36:15.971Z</published>
+    <updated>2016-03-20T06:27:04.044Z</updated>
+    
+    <content type="html">&lt;p&gt;&lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;引用&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04&quot; target=&quot;_blank&quot; rel=&quot;externa
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/linux/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://snecker.github.io/2016/05/20/linux/linux常用命令/</id>
+    <published>2016-05-20T02:36:15.736Z</published>
+    <updated>2016-04-15T09:27:33.958Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;修改hosts文件后重启网卡&quot;&gt;&lt;a href=&quot;#修改hosts文件后重启网卡&quot; class=&quot;headerlink&quot; title=&quot;修改hosts文件后重启网卡&quot;&gt;&lt;/a&gt;修改hosts文件后重启网卡&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo /etc/init.d/networking restart&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;修改hosts文件后重启网卡&quot;&gt;&lt;a href=&quot;#修改hosts文件后重启网卡&quot; class=&quot;headerlink&quot; title=&quot;修改hosts文件后重启网卡&quot;&gt;&lt;/a&gt;修改hosts文件后重启网卡&lt;/h1&gt;&lt;figure class=&quot;highlight 
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/java/spring%20boot%20%20src%20test%20java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%BC%95%E7%94%A8src%20main%20resource%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/"/>
+    <id>http://snecker.github.io/2016/05/20/java/spring boot  src test java单元测试引用src main resource下的配置文件/</id>
+    <published>2016-05-20T02:36:15.690Z</published>
+    <updated>2016-03-31T09:18:16.177Z</updated>
+    
+    <content type="html">&lt;p&gt;在src/main/resources下有&lt;br&gt;&lt;figure class=&quot;highlight applescript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;config/&lt;span class=&quot;built_in&quot;&gt;application&lt;/span&gt;-&lt;span class=&quot;keyword&quot;&gt;local&lt;/span&gt;.properties&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;config/&lt;span class=&quot;built_in&quot;&gt;application&lt;/span&gt;-test.properties&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;config/&lt;span class=&quot;built_in&quot;&gt;application&lt;/span&gt;-prod.properties&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;三个文件&lt;br&gt;在入口runner类中声明&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@PropertySource&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&quot;config/application-$&amp;#123;spring.profiles.active:local&amp;#125;.properties&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;可以引用对应profile的文件&lt;/p&gt;
+&lt;p&gt;在单元测试中声明&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@RunWith&lt;/span&gt;(SpringJUnit4ClassRunner.class)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@SpringApplicationConfiguration&lt;/span&gt;(classes = RUNNER.class)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@ActiveProfiles&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&quot;prod&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在src/main/resources下有&lt;br&gt;&lt;figure class=&quot;highlight applescript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span cl
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/java/springboot%20%E4%B8%AD%E7%94%A8%E5%88%B0spark-java%E5%88%9D%E5%A7%8B%E5%8C%962%E6%AC%A1embeddedjettycontainer%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>http://snecker.github.io/2016/05/20/java/springboot 中用到spark-java初始化2次embeddedjettycontainer的问题/</id>
+    <published>2016-05-20T02:36:15.688Z</published>
+    <updated>2016-05-12T07:04:48.028Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;springboot-中用到spark-java初始化2次embeddedjettycontainer的问题&quot;&gt;&lt;a href=&quot;#springboot-中用到spark-java初始化2次embeddedjettycontainer的问题&quot; class=&quot;headerlink&quot; title=&quot;springboot 中用到spark-java初始化2次embeddedjettycontainer的问题&quot;&gt;&lt;/a&gt;springboot 中用到spark-java初始化2次embeddedjettycontainer的问题&lt;/h1&gt;&lt;p&gt;sparkjava内置了jetty,集成springboot的时候&lt;/p&gt;
+&lt;p&gt;springboot会扫描classpath刚好包含了jetty-web/api等jetty包,则会初始化springboot内置的embeddedjetty 8080端口的服务&lt;/p&gt;
+&lt;p&gt;而spark本身显示调用了创建一个jetty服务,这样项目启动之后就创建了两个服务,其实只spark创建的哪一个.&lt;/p&gt;
+&lt;p&gt;解决&lt;/p&gt;
+&lt;hr&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ApplicationContext context =&lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; SpringApplicationBuilder(RUNNER.class).web(&lt;span class=&quot;keyword&quot;&gt;false&lt;/span&gt;).run(args);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;其中 web(false)就指明不自动创建一个web环境&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;springboot-中用到spark-java初始化2次embeddedjettycontainer的问题&quot;&gt;&lt;a href=&quot;#springboot-中用到spark-java初始化2次embeddedjettycontainer的问题&quot; class=&quot;hea
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/java/spring%20boot%20%20%E6%B7%BB%E5%8A%A0%20class%20level%20%E7%BA%A7%E5%88%AB%E7%9A%84%20%E6%B3%A8%E8%A7%A3/"/>
+    <id>http://snecker.github.io/2016/05/20/java/spring boot  添加 class level 级别的 注解/</id>
+    <published>2016-05-20T02:36:15.687Z</published>
+    <updated>2016-05-08T07:49:10.709Z</updated>
+    
+    <content type="html">&lt;p&gt;spring boot  添加 class level 级别的 注解&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;spring boot  添加 class level 级别的 注解&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://snecker.github.io/2016/05/20/java/junit%E5%9C%A8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B8%AD%E5%BC%95%E7%94%A8%20src-main-resouces%E7%9A%84%E6%96%87%E4%BB%B6/"/>
+    <id>http://snecker.github.io/2016/05/20/java/junit在单元测试中引用 src-main-resouces的文件/</id>
+    <published>2016-05-20T02:36:15.685Z</published>
+    <updated>2016-03-31T09:18:01.797Z</updated>
+    
+    <content type="html">&lt;p&gt;在maven项目中单元测试的时候。&lt;br&gt;有时我希望引入src/main/resources下面的配置文件或其他文件。&lt;/p&gt;
+&lt;p&gt;默认情况下，运行单元测试的时候， 是从 target/test-classes目录下读取。而这个目录下的文件是从 src/test/resources下编译过来的。&lt;/p&gt;
+&lt;p&gt;解决：&lt;/p&gt;
+&lt;p&gt;在pom.xml中配置&lt;br&gt;&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;build&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;resources&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;resource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;src/main/resources&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;resource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;resources&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;testResources&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;testResource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;src/test/resources&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;testResource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;testResource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;src/main/resources&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;testResource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;testResources&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;build&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在maven项目中单元测试的时候。&lt;br&gt;有时我希望引入src/main/resources下面的配置文件或其他文件。&lt;/p&gt;
+&lt;p&gt;默认情况下，运行单元测试的时候， 是从 target/test-classes目录下读取。而这个目录下的文件是从 src/test/reso
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>

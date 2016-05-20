@@ -1,0 +1,104 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>  · Paul的博客</title><meta name="description" content=" - Paul"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title"></h1><div class="post-info">May 20, 2016</div><div class="post-content">require(["gitbook", "lodash"], function(gitbook, _) {
+    var SITES = {
+        'facebook': {
+            'label': 'Facebook',
+            'icon': 'fa fa-facebook',
+            'onClick': function(e) {
+                e.preventDefault();
+                window.open("http://www.facebook.com/sharer/sharer.php?s=100&p[url]="+encodeURIComponent(location.href));
+            }
+        },
+        'twitter': {
+            'label': 'Twitter',
+            'icon': 'fa fa-twitter',
+            'onClick': function(e) {
+                e.preventDefault();
+                window.open("http://twitter.com/home?status="+encodeURIComponent(document.title+" "+location.href));
+            }
+        },
+        'google': {
+            'label': 'Google+',
+            'icon': 'fa fa-google-plus',
+            'onClick': function(e) {
+                e.preventDefault();
+                window.open("https://plus.google.com/share?url="+encodeURIComponent(location.href));
+            }
+        },
+        'weibo': {
+            'label': 'Weibo',
+            'icon': 'fa fa-weibo',
+            'onClick': function(e) {
+                e.preventDefault();
+                window.open("http://service.weibo.com/share/share.php?content=utf-8&url="+encodeURIComponent(location.href)+"&title="+encodeURIComponent(document.title));
+            }
+        },
+        'instapaper': {
+            'label': 'Instapaper',
+            'icon': 'fa fa-instapaper',
+            'onClick': function(e) {
+                e.preventDefault();
+                window.open("http://www.instapaper.com/text?u="+encodeURIComponent(location.href));
+            }
+        },
+        'vk': {
+            'label': 'VK',
+            'icon': 'fa fa-vk',
+            'onClick': function(e) {
+                e.preventDefault();
+                window.open("http://vkontakte.ru/share.php?url="+encodeURIComponent(location.href));
+            }
+        }
+    };
+
+
+
+    gitbook.events.bind("start", function(e, config) {
+        var opts = config.sharing;
+
+        // Create dropdown menu
+        var menu = _.chain(opts.all)
+            .map(function(id) {
+                var site = SITES[id];
+
+                return {
+                    text: site.label,
+                    onClick: site.onClick
+                };
+            })
+            .compact()
+            .value();
+
+        // Create main button with dropdown
+        if (menu.length > 0) {
+            gitbook.toolbar.createButton({
+                icon: 'fa fa-share-alt',
+                label: 'Share',
+                position: 'right',
+                dropdown: [menu]
+            });
+        }
+
+        // Direct actions to share
+        _.each(SITES, function(site, sideId) {
+            if (!opts[sideId]) return;
+
+            gitbook.toolbar.createButton({
+                icon: site.icon,
+                label: site.text,
+                position: 'right',
+                onClick: site.onClick
+            });
+        });
+    });
+});
+</div></article></div></section><footer><div class="paginator"><a href="/2016/05/20/gitbook/plugins/gitbook-plugin-highlight/ebook/" class="prev">上一篇</a><a href="/2016/05/20/gitbook/plugins/gitbook-plugin-search/lunr.min/" class="next">下一篇</a></div><div data-thread-key="2016/05/20/gitbook/plugins/gitbook-plugin-sharing/buttons/" data-title="" data-url="http://snecker.github.io/2016/05/20/gitbook/plugins/gitbook-plugin-sharing/buttons/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"snecker"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2016 <a href="http://snecker.github.io">Paul</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-78052515-1",'auto');ga('send','pageview');</script></body></html>

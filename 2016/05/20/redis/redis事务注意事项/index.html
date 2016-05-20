@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> redis事务注意事项 · Paul的博客</title><meta name="description" content="redis事务注意事项 - Paul"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">redis事务注意事项</h1><div class="post-info">May 20, 2016</div><div class="post-content"><p><a href="http://redisbook.readthedocs.org/en/latest/feature/transaction.html" target="_blank" rel="external">redis 事务</a></p>
+<p>需要注意的是：</p>
+<ol>
+<li><p>事务中的命令是按顺序执行的，在命令中间不会夹杂执行其他客户端发出的命令。执行完事务的命令才会执行其他客户端的命令。</p>
+</li>
+<li><p>redis 的事务不可嵌套</p>
+</li>
+<li><p>DISCARD 命令会清空事务队列，返回OK</p>
+</li>
+<li><p>WATCH 只能在事务multi命令之前执行。如果事务队列的命令在执行过程中发现 watch 的值发生变化，则整个事务队列的命令不会执行，直接返回失败</p>
+</li>
+</ol>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/05/20/redis/redis 持久化 RDB &amp; AOF/" class="prev">上一篇</a><a href="/2016/05/20/nginx/nginx websocket 连接 每隔一断时间自己断掉/" class="next">下一篇</a></div><div data-thread-key="2016/05/20/redis/redis事务注意事项/" data-title="redis事务注意事项" data-url="http://snecker.github.io/2016/05/20/redis/redis事务注意事项/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"snecker"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2016 <a href="http://snecker.github.io">Paul</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-78052515-1",'auto');ga('send','pageview');</script></body></html>

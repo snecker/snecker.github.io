@@ -1,0 +1,49 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>  · Paul的博客</title><meta name="description" content=" - Paul"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title"></h1><div class="post-info">May 20, 2016</div><div class="post-content"><h1 id="打开监控"><a href="#打开监控" class="headerlink" title="打开监控"></a>打开监控</h1><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; SET profiling = 1;</span><br><span class="line">&gt; show profiles;</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Query_ID</th>
+<th style="text-align:right">Duration</th>
+<th>Query</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">1</td>
+<td style="text-align:right">0.00054125</td>
+<td>explain   select * from t_sales_bill where  date(last_update_date) = ‘2016-03-02’</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td style="text-align:right">0.00045175</td>
+<td>explain   select last_update_date from t_sales_bill where  …</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td style="text-align:right">0.00027050</td>
+<td>SHOW WARNINGS LIMIT 5</td>
+</tr>
+</tbody>
+</table>
+<h1 id="索引选择性"><a href="#索引选择性" class="headerlink" title="索引选择性"></a>索引选择性</h1><blockquote>
+<p>索引的选择性（Selectivity），是指不重复的索引值（也叫基数，Cardinality）与表记录数（#T）的比值：<br>有关的索引优化策略叫做<strong><em>前缀索引</em></strong>,就是用列的前缀代替整个列作为索引key，当前缀长度合适时，<br>可以做到既使得前缀索引的选择性接近全列索引，同时因为索引key变短而减少了索引文件的大小和维护开销。</p>
+</blockquote>
+<p>长度的选择:接近全名的索引选择性并且长度短的优先.</p>
+<p>举例:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">count</span>(<span class="keyword">DISTINCT</span>(title))/<span class="keyword">count</span>(*) <span class="keyword">AS</span> Selectivity <span class="keyword">FROM</span> employees.titles;</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> employees.employees</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">INDEX</span> <span class="string">`first_name_last_name4`</span> (first_name, last_name(<span class="number">4</span>));</span><br></pre></td></tr></table></figure>
+<p>缺点:</p>
+<ul>
+<li>不能用于order by ,group by</li>
+</ul>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/05/20/mysql/ 聚集索引和非聚集索引区别/" class="prev">上一篇</a><a href="/2016/05/20/mysql/一个字符设置问题/" class="next">下一篇</a></div><div data-thread-key="2016/05/20/mysql/mysql 常用命令/" data-title="" data-url="http://snecker.github.io/2016/05/20/mysql/mysql 常用命令/" data-author-key="1" class="ds-thread"></div><script>var duoshuoQuery = {short_name:"snecker"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+
+</script><div class="copyright"><p>© 2015 - 2016 <a href="http://snecker.github.io">Paul</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-78052515-1",'auto');ga('send','pageview');</script></body></html>
